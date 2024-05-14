@@ -11,12 +11,19 @@ public class CapitalizeDecorator extends TransformationDecorator {
     @Override
     public String transform(String text) {
         StringBuilder builder = new StringBuilder();
+        boolean capitalizeNext = true;
 
-        for (String word : text.split("\\s")) {
-            if (!word.isEmpty()) {
-                builder.append(Character.toTitleCase(word.charAt(0)))
-                        .append(word.substring(1))
-                        .append(" ");
+        for (char c : text.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                builder.append(c);
+                capitalizeNext = true;
+            } else {
+                if (capitalizeNext) {
+                    builder.append(Character.toTitleCase(c));
+                    capitalizeNext = false;
+                } else {
+                    builder.append(c);
+                }
             }
         }
 

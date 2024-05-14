@@ -11,7 +11,7 @@
     <div class="container">
       <textarea id="inputText" class="input" placeholder="Enter text here..."></textarea>
       <div id="output" class="output">
-        <span style="color:#aaa;word-wrap:break-word" id="outputText">Empty...</span>
+        <pre style="color:#aaa;word-wrap:break-word" id="outputText">Empty...</pre>
       </div>
       <div class="output-buttons">
         <button id="transform" class="transform" onclick="transform()">Transform</button>
@@ -118,7 +118,7 @@
                 .map(x => x.firstChild)
                 .map(x => x.textContent)
                 .map(x => transformationMapping[x]);
-        const apiUrl = 'http://localhost:8080/get?q=' + inputText + '&transforms=' + labels.join(',');
+        const apiUrl = 'http://localhost:8080/get?q=' + encodeURIComponent(inputText) + '&transforms=' + labels.join(',');
         console.log(apiUrl);
 
         fetch(apiUrl)
@@ -130,7 +130,6 @@
                 })
                 .then(data => {
                   console.log(data);
-                  const output = document.getElementById("output");
                   outputText.textContent = null;
                   outputText.style.color = null;
                   outputText.textContent = data.output;
