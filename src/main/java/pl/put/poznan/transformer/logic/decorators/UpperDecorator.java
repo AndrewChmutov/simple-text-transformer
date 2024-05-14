@@ -10,6 +10,9 @@ public class UpperDecorator extends TransformationDecorator {
 
     @Override
     public String transform(String text) {
+        String result = text.toUpperCase();
+        logger.debug("Upper applied: " + result);
+
         return super.transform(text.toUpperCase());
     }
 }

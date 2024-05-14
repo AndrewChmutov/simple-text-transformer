@@ -10,6 +10,9 @@ public class LowerDecorator extends TransformationDecorator {
 
     @Override
     public String transform(String text) {
+        String result = text.toLowerCase();
+        logger.debug("Lower applied: " + result);
+
         return super.transform(text.toLowerCase());
     }
 }
