@@ -43,13 +43,12 @@ public class TextTransformerController {
         return textToJsonFormat(output);
     }
 
-    @PostMapping(path = "/post/{text}", produces = "application/json")
-    public @ResponseBody String post(@PathVariable String text,
-                      @RequestBody String[] transforms) {
+    @PostMapping(path = "/post", produces = "application/json")
+    public @ResponseBody String post(@RequestBody TransformRequest request) {
 
         logger.info("Serving POST request");
 
-        final String output = transform(text, transforms);
+        final String output = transform(request.getInput(), request.getTransforms());
         return textToJsonFormat(output);
     }
 }
