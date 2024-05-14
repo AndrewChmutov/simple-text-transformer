@@ -1,6 +1,5 @@
 package pl.put.poznan.transformer.rest;
 
-import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ public class TextTransformerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
-    private static String transform(String text, String[] transforms) {
+    private static String transformationProcedure(String text, String[] transforms) {
         logger.debug("Parameters: " + Arrays.toString(transforms));
         logger.debug("Text: " + text);
 
@@ -35,11 +34,11 @@ public class TextTransformerController {
 
     @GetMapping(path = "/get", produces = "application/json")
     public String get(@RequestParam(value = "q", defaultValue = "") String text,
-                              @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
+                              @RequestParam(value="transforms", defaultValue="") String[] transforms) {
 
         logger.info("Serving GET request");
 
-        final String output = transform(text, transforms);
+        final String output = transformationProcedure(text, transforms);
         return textToJsonFormat(output);
     }
 
@@ -48,7 +47,7 @@ public class TextTransformerController {
 
         logger.info("Serving POST request");
 
-        final String output = transform(request.getInput(), request.getTransforms());
+        final String output = transformationProcedure(request.getInput(), request.getTransforms());
         return textToJsonFormat(output);
     }
 }
