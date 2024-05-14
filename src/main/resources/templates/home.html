@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text Transformer</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}">
+    <script src="https://kit.fontawesome.com/67c66657c7.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+  </head>
+  <body>
+    <h1>Text Transformer</h1>
+    <div class="container">
+      <textarea id="inputText" class="input" placeholder="Enter text here..."></textarea>
+      <div id="output" class="output">
+        <span style="color:#aaa;word-wrap:break-word" id="outputText">Empty...</span>
+      </div>
+      <div class="output-buttons">
+        <button id="transform" class="transform" onclick="transform()">Transform</button>
+        <div class="tooltip">
+          <button class="copy-button" onclick="copyClicked()" onmouseout="outFunc()">
+            <span class="toolTipText" id="copyText">Copy to clipboard</span>
+            Copy
+          </button>
+        </div>
+      </div>
+      <hr style="width:100%;margin-top:30px;margin-bottom:15px">
+      <h3>Transformations &#8595;</h3>
+      <div id="transformation-buttons" class="transformation-buttons">
+      </div>
+      <div class="dragBox" id="dragBox"></div>
+    </div>
+
+    <script>
+      const transformationButtons = [
+        "To upper",
+        "To lower",
+        "Capitalize",
+        "Reverse",
+        "Integer conversion",
+        "Acronym compression",
+        "Acronym expansion",
+        "Latex",
+        "Trim repetitions"
+      ]
+
+      const transformationOptions = [
+        "upper",
+        "lower",
+        "capitalize",
+        "reverse",
+        "int_conversion",
+        "acronym_compress",
+        "acronym_expand",
+        "latex",
+        "trim_repetitions"
+      ]
+
+      let transformationMapping = {};
+      for (let i = 0; i < transformationOptions.length; i++) {
+        transformationMapping[transformationButtons[i]] = transformationOptions[i];
+      }
+
+      // create list of transformations
+      const dragBox = document.querySelector('.dragBox')
+      new Sortable(dragBox,{
+        handle: '.glyphicon-move',
+        animation: 100,
+      })
+
+
+
+      transformationButtons.forEach(label => {
+        const newButton = document.createElement("button");
+        newButton.classList.add("transformation-button")
+        newButton.textContent = label;
+        newButton.addEventListener('click', function () {
+          const controls = document.createElement('div');
+          controls.classList.add('controls')
+
+          const moveButton = document.createElement('i');
+          moveButton.classList.add('fas', 'fa-bars', 'control', 'glyphicon-move');
+
+          const deleteButton = document.createElement('i');
+          deleteButton.classList.add('fas', 'fa-minus', 'control', 'remove-handle');
+          deleteButton.addEventListener('click', function () {
+            const listItem = this.parentNode;
+            listItem.parentNode.parentNode.removeChild(listItem.parentNode);
+          });
+
+          controls.appendChild(deleteButton);
+          controls.appendChild(moveButton);
+
+          const text = document.createElement('span');
+          text.classList.add('text');
+          text.textContent = label;
+
+          const newItem = document.createElement('div');
+          newItem.classList.add('listItem')
+          newItem.appendChild(text);
+          newItem.appendChild(controls);
+          document.getElementById('dragBox').appendChild(newItem);
+        });
+        document.getElementById('transformation-buttons').appendChild(newButton);
+      });
+
+
+      function transform() {
+        const outputText = document.getElementById("outputText");
+        const inputText = document.getElementById("inputText").value;
+        if (inputText.length === 0) {
+          outputText.style.color = "#aaa";
+          outputText.textContent = "Empty..."
+          return;
+        }
+
+        const to_do = document.querySelectorAll(".listItem");
+        const labels = Array
+                .from(to_do)
+                .map(x => x.firstChild)
+                .map(x => x.textContent)
+                .map(x => transformationMapping[x]);
+        const apiUrl = 'http://localhost:8080/get?q=' + inputText + '&transforms=' + labels.join(',');
+        console.log(apiUrl);
+
+        fetch(apiUrl)
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  console.log(data);
+                  const output = document.getElementById("output");
+                  outputText.textContent = null;
+                  outputText.style.color = null;
+                  outputText.textContent = data.output;
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
+      }
+
+      function copyClicked() {
+        const copyText = document.getElementById("outputText");
+        navigator.clipboard.writeText(copyText.textContent);
+
+        const tooltip = document.getElementById("copyText");
+        tooltip.innerHTML = "Copied!";
+      }
+
+      function outFunc() {
+        const tooltip = document.getElementById("copyText");
+        tooltip.innerHTML = "Copy to clipboard";
+      }
+
+      function autoExpandTextarea() {
+        const textarea = this;
+        textarea.style.height = "auto"
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+
+      const textarea = document.getElementById("inputText");
+      textarea.addEventListener("input", autoExpandTextarea);
+      autoExpandTextarea.call(textarea)
+    </script>
+  </body>
+</html>

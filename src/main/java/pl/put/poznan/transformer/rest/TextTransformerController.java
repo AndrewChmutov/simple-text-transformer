@@ -1,4 +1,7 @@
 package pl.put.poznan.transformer.rest;
+
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -8,39 +11,47 @@ import java.util.Arrays;
 
 
 @RestController
-@RequestMapping("/{text}")
 public class TextTransformerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public String get(@PathVariable String text,
+    private static String transform(String text, String[] transforms) {
+        logger.debug("Parameters: " + Arrays.toString(transforms));
+        logger.debug("Text: " + text);
+
+        TextTransformer transformer = new TextTransformer(transforms);
+        final String result = transformer.transform(text);
+
+        logger.debug("Transformed text: " + result);
+        return result;
+    }
+
+    private static String textToJsonFormat(String output) {
+        return JsonPath
+                .parse("{}")
+                .put("$", "output", output)
+                .jsonString();
+    }
+
+    @GetMapping(path = "/get", produces = "application/json")
+    public String get(@RequestParam(value = "q", defaultValue = "") String text,
                               @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
 
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        logger.info("Serving GET request");
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        TextTransformer transformer = new TextTransformer(transforms);
-        return transformer.transform(text);
+        final String output = transform(text, transforms);
+        return textToJsonFormat(output);
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String post(@PathVariable String text,
+    @PostMapping(path = "/post/{text}", produces = "application/json")
+    public @ResponseBody String post(@PathVariable String text,
                       @RequestBody String[] transforms) {
 
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        logger.info("Serving POST request");
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        TextTransformer transformer = new TextTransformer(transforms);
-        return transformer.transform(text);
+        final String output = transform(text, transforms);
+        return textToJsonFormat(output);
     }
-
-
-
 }
 
 
