@@ -82,7 +82,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://github.com/AndrewChmutov/simple-text-transformer</url>
+            <url>https://maven.pkg.github.com/AndrewChmutov/simple-text-transformer</url>
         </repository>
     </distributionManagement>
 </project>
