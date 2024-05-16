@@ -16,7 +16,7 @@ public class TransformerConfig {
             case "lower" -> new LowerDecorator(textTransformation);
             case "capitalize" -> new CapitalizeDecorator(textTransformation);
             case "reverse" -> new ReverseDecorator(textTransformation);
-            case "int_conversion" -> new IntConversionDecorator(textTransformation);
+            case "number_conversion" -> new NumberConversionDecorator(textTransformation);
             default -> {
                 logger.warn("Invalid transformation: " + transformationName);
                 yield textTransformation;
