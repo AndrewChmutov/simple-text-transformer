@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
 
       - name: Deploy JavaDoc
-        uses: MathieuSoysal/Javadoc-publisher@v2.5.0
+        uses: MathieuSoysal/Javadoc-publisher.yml@v2.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: master
