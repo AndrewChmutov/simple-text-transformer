@@ -1,6 +1,5 @@
-package pl.put.poznan.transformer.logic;
+package pl.put.poznan.transformer.logic.decorators.converters;
 
-import pl.put.poznan.transformer.logic.IntConverter;
 import java.util.Arrays;
 
 public class FloatConverter {
@@ -30,15 +29,14 @@ public class FloatConverter {
             }
 
             int dot_index = string.indexOf(".");
-            if (dot_nr == 1 & dot_index != 0 & dot_index != string.length()-1 & dot_index <= 2 & string.length() - dot_index <= 2) {
+            if (dot_nr == 1 & dot_index != 0 & dot_index != string.length()-1 & dot_index <= 3 & string.length() - dot_index <= 3) {
                 String integerPart = string.substring(0, dot_index);
-                char[] fractionCh = Arrays.copyOfRange(chars, dot_index+1, string.length());
                 IntConverter IC = new IntConverter();
                 isFloat  = IC.convertToText(integerPart).isInt();
 
+                char[] fractionCh = Arrays.copyOfRange(chars, dot_index+1, string.length());
                 for (char c : fractionCh) {
-                    int asciiVal = c;
-                    if (asciiVal < 48 || asciiVal > 57) {
+                    if (c < '0' || c > '9') {
                         isFloat = false;
                         break;
                     }
@@ -47,24 +45,24 @@ public class FloatConverter {
                 if (isFloat) {
                     String integerConverted = IC.convertToText(integerPart).getResult();
                     int fraction = 0;
-                    String fractionPart = null;
+                    String fractionConverted = null;
                     if (fractionCh[0] == '0') {
                         if (fractionCh[1] == '0') {
-                            fractionPart = "";
+                            fractionConverted = "";
                         } 
                         else {
                             char[] hundredth = Arrays.copyOfRange(fractionCh, 1, 2);
-                            fractionPart = IC.convertToText(new String(hundredth)).getResult() + "hundredths";
+                            fractionConverted = IC.convertToText(new String(hundredth)).getResult() + "hundredths ";
                         }
                     }
                     else if (fractionCh.length == 2) {
-                        fractionPart = IC.convertToText(new String(fractionCh)).getResult() + "hundredths";
+                        fractionConverted = IC.convertToText(new String(fractionCh)).getResult() + "hundredths ";
                     }
                     else {
-                        fractionPart = IC.convertToText(new String(fractionCh)).getResult() + "tenths";
+                        fractionConverted = IC.convertToText(new String(fractionCh)).getResult() + "tenths ";
                     }
 
-                    String float_nr = integerPart + "and" + fractionPart;
+                    String float_nr = integerConverted + "and " + fractionConverted;
                     builder.append(float_nr);
                 }
             }

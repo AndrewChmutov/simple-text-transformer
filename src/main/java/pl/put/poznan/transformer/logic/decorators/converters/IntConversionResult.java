@@ -1,4 +1,4 @@
-package pl.put.poznan.transformer.logic;
+package pl.put.poznan.transformer.logic.decorators.converters;
 
 public class ConversionResult {
     private String result;
