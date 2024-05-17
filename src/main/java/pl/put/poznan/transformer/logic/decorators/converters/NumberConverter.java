@@ -2,13 +2,13 @@ package pl.put.poznan.transformer.logic.decorators.converters;
 
 import java.util.Arrays;
 
-public class FloatConverter {
+public class NumberConverter {
 
     private static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
             "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private static final String[] TENS = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
-    public FloatConverter(){}
+    public NumberConverter(){}
 
     private String convert(String text) {
         StringBuilder builder = new StringBuilder();
@@ -62,8 +62,14 @@ public class FloatConverter {
                         fractionConverted = IC.convertToText(new String(fractionCh)).getResult() + "tenths ";
                     }
 
-                    String float_nr = integerConverted + "and " + fractionConverted;
-                    builder.append(float_nr);
+                    if (integerConverted.equals("zero ")) {
+                        String float_nr = fractionConverted;
+                        builder.append(float_nr);
+                    }
+                    else {
+                        String float_nr = integerConverted + "and " + fractionConverted;
+                        builder.append(float_nr);
+                    }
                 }
             }
 

@@ -1,10 +1,10 @@
 package pl.put.poznan.transformer.logic.decorators.converters;
 
-public class ConversionResult {
+public class IntConversionResult {
     private String result;
     private boolean isInt;
 
-    public ConversionResult(String result, boolean isInt) {
+    public IntConversionResult(String result, boolean isInt) {
         this.result = result;
         this.isInt = isInt;
     }

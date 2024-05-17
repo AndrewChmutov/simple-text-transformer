@@ -1,4 +1,4 @@
-package pl.put.poznan.transformer.logic;
+package pl.put.poznan.transformer.logic.decorators.converters;
 
 
 public class IntConverter {
@@ -29,7 +29,7 @@ public class IntConverter {
         return text.trim();
     }
 
-    private ConversionResult convert(String text) {
+    private IntConversionResult convert(String text) {
         StringBuilder builder = new StringBuilder();
         String[] arrOfStr = text.split(" ", 0);
         boolean isInt = true;
@@ -79,12 +79,12 @@ public class IntConverter {
                 isInt = false;
             }
         }
-        String result = builder.toString().trim();
-        return new ConversionResult(result, isInt);
+        String result = builder.toString();
+        return new IntConversionResult(result, isInt);
     }
 
-    public ConversionResult convertToText(String text) {
-        ConversionResult result = convert(text);
+    public IntConversionResult convertToText(String text) {
+        IntConversionResult result = convert(text);
         return result;
     }
 }
