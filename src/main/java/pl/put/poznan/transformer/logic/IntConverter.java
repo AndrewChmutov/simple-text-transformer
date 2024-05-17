@@ -1,32 +1,13 @@
 package pl.put.poznan.transformer.logic;
 
 
-public class ConversionResult {
-    private String result;
-    private boolean isInt;
-
-    public ConversionResult(String result, boolean isInt) {
-        this.result = result;
-        this.isInt = isInt;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public boolean isInt() {
-        return isInt;
-    }
-}
-
-
 public class IntConverter {
 
     private static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
             "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private static final String[] TENS = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
-    public NumberConverter(){}
+    public IntConverter(){}
 
     private static String convertHundreds(int number) {
         String text = "";
@@ -48,15 +29,16 @@ public class IntConverter {
         return text.trim();
     }
 
-    private String convert(String text) {
+    private ConversionResult convert(String text) {
         StringBuilder builder = new StringBuilder();
         String[] arrOfStr = text.split(" ", 0);
+        boolean isInt = true;
 
         for (String string : arrOfStr) {
-            boolean isInt = true;
+            isInt = true;
             if (string.length() <= 3 ) {
 
-                if (string.charAt(0) == "0") {
+                if (string.charAt(0) == '0') {
                     if (string.length() == 1) {
                         builder.append(ONES[0]);
                         builder.append(" ");
@@ -64,23 +46,24 @@ public class IntConverter {
                     else {
                         builder.append(string);
                         builder.append(" ");
+                        isInt = false;
                     }
                 }
-                else if (string.length() == 1 & string.charAt(0) == "") {
+                else if (string.isEmpty()) {
                     builder.append(" ");
+                    isInt = false;
                 }
                 else {
                     for (char c : string.toCharArray()) {
-                        int asciiVal = c;
-                        if (asciiVal < 48 || asciiVal > 57) {
-                            isNumber == false;
+                        if (c < '0' || c > '9') {
+                            isInt = false;
                             break;
                         }
                     }
                     if (isInt) {
                         int number = Integer.parseInt(string);
-                        String text = convertHundreds(number % 1000);
-                        builder.append(text.trim());
+                        String convertedText = convertHundreds(number % 1000);
+                        builder.append(convertedText.trim());
                         builder.append(" ");
                     }
                     else {
@@ -93,10 +76,15 @@ public class IntConverter {
             else {
                 builder.append(string);
                 builder.append(" ");
+                isInt = false;
             }
         }
-
         String result = builder.toString().trim();
         return new ConversionResult(result, isInt);
+    }
+
+    public ConversionResult convertToText(String text) {
+        ConversionResult result = convert(text);
+        return result;
     }
 }

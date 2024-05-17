@@ -12,10 +12,9 @@ public class IntConversionDecorator extends TransformationDecorator {
     @Override
     public String transform(String text) {
         IntConverter IC = new IntConverter();
-        String result = IC.convert(text).getResult();
+        String result = IC.convertToText(text).getResult();
         logger.debug("IntConversion applied: " + result);
         
         return super.transform(result);
     }
 }
-

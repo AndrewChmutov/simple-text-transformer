@@ -1,6 +1,7 @@
 package pl.put.poznan.transformer.logic;
 
-import pl.put.poznan.transformer.logic.NumberConverter;
+import pl.put.poznan.transformer.logic.IntConverter;
+import java.util.Arrays;
 
 public class FloatConverter {
 
@@ -20,7 +21,7 @@ public class FloatConverter {
 
             int dot_nr = 0;
             for (char c : chars) {
-                if (c.equals(".")) {
+                if (c == '.') {
                     dot_nr++;
                     if (dot_nr > 1) {
                         break;
@@ -28,43 +29,39 @@ public class FloatConverter {
                 }
             }
 
-            dot_index = chars.indexOf(".");
+            int dot_index = string.indexOf(".");
             if (dot_nr == 1 & dot_index != 0 & dot_index != string.length()-1 & dot_index <= 2 & string.length() - dot_index <= 2) {
-                char[] integerCh = chars.subList(0, dot_index);
-                char[] fractionCh = chars.subList(dot_index + 1, chars.size());
+                String integerPart = string.substring(0, dot_index);
+                char[] fractionCh = Arrays.copyOfRange(chars, dot_index+1, string.length());
                 IntConverter IC = new IntConverter();
-                isFloat  = IC.convert(integerPart).isInt();
+                isFloat  = IC.convertToText(integerPart).isInt();
 
                 for (char c : fractionCh) {
                     int asciiVal = c;
                     if (asciiVal < 48 || asciiVal > 57) {
-                        isFloat == false;
+                        isFloat = false;
                         break;
                     }
                 }
 
                 if (isFloat) {
-                    int integer = Integer.parseInt(new String(integerCh));
-                    String integerPart = IC.convert(integer).getResult();
-                    
+                    String integerConverted = IC.convertToText(integerPart).getResult();
                     int fraction = 0;
                     String fractionPart = null;
-                    if (fractionCh[0] == "0") {
-                        if (fractionCh[1] == "0") {
-                            fractionPart == ""
+                    if (fractionCh[0] == '0') {
+                        if (fractionCh[1] == '0') {
+                            fractionPart = "";
                         } 
                         else {
-                            fraction = Integer.parseInt(new String(fractionCh[1]));
-                            fractionPart = IC.convert(fraction).getResult() + "hunredths";
+                            char[] hundredth = Arrays.copyOfRange(fractionCh, 1, 2);
+                            fractionPart = IC.convertToText(new String(hundredth)).getResult() + "hundredths";
                         }
                     }
-                    else if (fractionCh.size() == 2) {
-                        fraction = Integer.parseInt(new String(fractionCh));
-                        fractionPart = IC.convert(fraction).getResult() + "hunredths";
+                    else if (fractionCh.length == 2) {
+                        fractionPart = IC.convertToText(new String(fractionCh)).getResult() + "hundredths";
                     }
                     else {
-                        fraction = Integer.parseInt(new String(fractionCh));
-                        fractionPart = IC.convert(fraction).getResult() + "tenths";
+                        fractionPart = IC.convertToText(new String(fractionCh)).getResult() + "tenths";
                     }
 
                     String float_nr = integerPart + "and" + fractionPart;
@@ -72,7 +69,7 @@ public class FloatConverter {
                 }
             }
 
-            else if (string.length() == 1 & string.charAt(0) == "") {
+            else if (string.isEmpty()) {
                 builder.append(" ");
             }
 
@@ -80,9 +77,13 @@ public class FloatConverter {
                 builder.append(string);
                 builder.append(" ");
             }
-
-        String result = builder.toString().trim();
-        return result;
         }
+    String result = builder.toString().trim();
+    return result;
+    }
+
+    public String convertToText(String text) {
+        String result = convert(text);
+        return result;
     }
 }
