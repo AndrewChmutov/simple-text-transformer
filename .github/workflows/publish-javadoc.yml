@@ -12,20 +12,11 @@ jobs:
     permissions:
       contents: write  # if you have a protection rule on your repository, you'll need to give write permission to the workflow.
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Deploy JavaDoc
         uses: MathieuSoysal/Javadoc-publisher.yml@v2.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: master
+          javadoc-branch: javadoc
           java-version: 17
           target-folder: docs
           project: maven
