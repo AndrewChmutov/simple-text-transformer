@@ -18,6 +18,7 @@ public class TransformerConfig {
             case "reverse" -> new ReverseDecorator(textTransformation);
             case "number_conversion" -> new NumberConversionDecorator(textTransformation);
             case "acronym_expand" -> new AcronymExpansionDecorator(textTransformation);
+            case "acronym_compress" -> new AcronymCompressionDecorator(textTransformation);
             default -> {
                 logger.warn("Invalid transformation: " + transformationName);
                 yield textTransformation;
