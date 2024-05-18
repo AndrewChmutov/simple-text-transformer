@@ -17,6 +17,7 @@ public class TransformerConfig {
             case "capitalize" -> new CapitalizeDecorator(textTransformation);
             case "reverse" -> new ReverseDecorator(textTransformation);
             case "number_conversion" -> new NumberConversionDecorator(textTransformation);
+            case "acronym_expand" -> new AcronymExpansionDecorator(textTransformation);
             default -> {
                 logger.warn("Invalid transformation: " + transformationName);
                 yield textTransformation;

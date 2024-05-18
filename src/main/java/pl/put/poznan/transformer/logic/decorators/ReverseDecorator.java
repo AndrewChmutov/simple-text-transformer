@@ -8,6 +8,7 @@ public class ReverseDecorator extends TransformationDecorator {
         super(textTransformation);
     }
 
+    @Override
     public String transform(String text) {
         StringBuilder builder = new StringBuilder(text);
         String result = builder.reverse().toString();

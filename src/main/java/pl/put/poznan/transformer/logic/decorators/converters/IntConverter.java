@@ -1,6 +1,11 @@
 package pl.put.poznan.transformer.logic.decorators.converters;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class IntConverter {
 
     private static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
@@ -29,62 +34,62 @@ public class IntConverter {
         return text.trim();
     }
 
-    private IntConversionResult convert(String text) {
+    public IntConversionResult convert(String text) {
         StringBuilder builder = new StringBuilder();
-        String[] arrOfStr = text.split(" ", 0);
+        Pattern pattern = Pattern.compile("\\s+");
+        Matcher matcher = pattern.matcher(text);
+        List<String> whitespaces = new ArrayList<>();
+        while (matcher.find()) {
+            whitespaces.add(matcher.group());
+        }
         boolean isInt = true;
 
-        for (String string : arrOfStr) {
-            isInt = true;
-            if (string.length() <= 3 ) {
 
-                if (string.charAt(0) == '0') {
-                    if (string.length() == 1) {
+        String[] words = text.split("(?<=\\s)(?=\\s)|\\s+");
+        int i = 0;
+        for (String word : words) {
+            isInt = true;
+            if (word.length() <= 3 & !word.isEmpty()) {
+
+                if (word.charAt(0) == '0') {
+                    if (word.length() == 1) {
                         builder.append(ONES[0]);
-                        builder.append(" ");
                     }
                     else {
-                        builder.append(string);
-                        builder.append(" ");
+                        builder.append(word);
                         isInt = false;
                     }
                 }
-                else if (string.isEmpty()) {
-                    builder.append(" ");
-                    isInt = false;
-                }
                 else {
-                    for (char c : string.toCharArray()) {
+                    for (char c : word.toCharArray()) {
                         if (c < '0' || c > '9') {
                             isInt = false;
                             break;
                         }
                     }
                     if (isInt) {
-                        int number = Integer.parseInt(string);
-                        String convertedText = convertHundreds(number % 1000);
-                        builder.append(convertedText.trim());
-                        builder.append(" ");
+                        int number = Integer.parseInt(word);
+                        String convertNumber = convertHundreds(number);
+                        builder.append(convertNumber);
                     }
                     else {
-                        builder.append(string);
-                        builder.append(" ");
+                        builder.append(word);
                     }
                 }
             }
 
             else {
-                builder.append(string);
-                builder.append(" ");
+                builder.append(word);
                 isInt = false;
             }
+
+            if (i<whitespaces.size()) {
+                builder.append(whitespaces.get(i));
+                ++i;
+            }
         }
+
         String result = builder.toString();
         return new IntConversionResult(result, isInt);
-    }
-
-    public IntConversionResult convertToText(String text) {
-        IntConversionResult result = convert(text);
-        return result;
     }
 }
