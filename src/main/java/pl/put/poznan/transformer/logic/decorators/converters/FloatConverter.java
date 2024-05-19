@@ -8,10 +8,6 @@ import java.util.List;
 
 public class FloatConverter {
 
-    private static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-            "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
-    private static final String[] TENS = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-
     public FloatConverter(){}
 
     public String convert(String text) {
@@ -62,7 +58,6 @@ public class FloatConverter {
                     if (fractionCh.length == 1) {
                         if (fractionCh[0] == '0') {
                             // Do nothing
-                            System.out.println("halo kurwa");
                         }
                         else {
                             fractionConverted = IC.convert(new String(fractionCh)).getResult() + " tenths";
