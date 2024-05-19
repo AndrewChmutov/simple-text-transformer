@@ -16,6 +16,9 @@ public class TransformerConfig {
             case "lower" -> new LowerDecorator(textTransformation);
             case "capitalize" -> new CapitalizeDecorator(textTransformation);
             case "reverse" -> new ReverseDecorator(textTransformation);
+            case "number_conversion" -> new NumberConversionDecorator(textTransformation);
+            case "acronym_expand" -> new AcronymExpansionDecorator(textTransformation);
+            case "acronym_compress" -> new AcronymCompressionDecorator(textTransformation);
             case "trim_repetitions" -> new RemoveRepetitionsDecorator(textTransformation);
             case "latex" -> new LatexDecorator(textTransformation);
             default -> {

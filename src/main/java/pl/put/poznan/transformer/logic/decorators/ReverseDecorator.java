@@ -14,13 +14,14 @@ public class ReverseDecorator extends TransformationDecorator {
     public ReverseDecorator(TextTransformation textTransformation) {
         super(textTransformation);
     }
-
+  
     /**
      * This method is used to reverse the given text. Given an input string, it returns a
      * string in reverse
      * @param text string input by the user
      * @return reversed text
      */
+    @Override
     public String transform(String text) {
         int n = text.length();
         StringBuilder builder = new StringBuilder(n);
