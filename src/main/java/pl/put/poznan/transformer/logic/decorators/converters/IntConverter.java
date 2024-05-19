@@ -54,7 +54,7 @@ public class IntConverter {
                 builder.append("one thousand");
             }
 
-            if (word.length() <= 3 & !word.isEmpty()) {
+            else if (word.length() <= 3 & !word.isEmpty()) {
 
                 if (word.charAt(0) == '0') {
                     if (word.length() == 1) {
