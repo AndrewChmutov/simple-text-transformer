@@ -29,16 +29,9 @@ public class AcronymCompressionDecorator extends TransformationDecorator{
             }
         }
 
-        int i = 0;
-        char firstChar = text.charAt(0);
-        if (Character.isWhitespace(firstChar)) {
-            builder.append(firstChar);
-            ++i;
-        }
-
         String[] words = text.split("(\\s)");
+        int i = 0;
         int omitWords = 0;
-
         for (int j = 0; j < words.length; j++) {
             if (omitWords > 0) {
                 --omitWords;
@@ -75,7 +68,6 @@ public class AcronymCompressionDecorator extends TransformationDecorator{
                 if (whitespace2 != 'n') {
                     builder.append(whitespace2);
                 }
-                builder.append(whitespace2);
                 omitWords = 1;
                 i+=2;
             } else if (ABBREVIATION_MAP.containsKey(lowerWords23)) {
