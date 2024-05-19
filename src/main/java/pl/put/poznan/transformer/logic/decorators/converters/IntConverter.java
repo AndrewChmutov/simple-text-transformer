@@ -49,6 +49,11 @@ public class IntConverter {
         int i = 0;
         for (String word : words) {
             isInt = true;
+
+            if (word.equals("1000")) {
+                builder.append("one thousand");
+            }
+
             if (word.length() <= 3 & !word.isEmpty()) {
 
                 if (word.charAt(0) == '0') {

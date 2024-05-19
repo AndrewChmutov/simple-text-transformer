@@ -57,29 +57,46 @@ public class FloatConverter {
                 if (isFloat) {
                     String integerConverted = IC.convert(integerPart).getResult();
                     int fraction = 0;
+                    String floatNr = null;
                     String fractionConverted = null;
-                    if (fractionCh[0] == '0') {
+                    if (fractionCh.length == 1) {
+                        if (fractionCh[0] == '0') {
+                            // Do nothing
+                            System.out.println("halo kurwa");
+                        }
+                        else {
+                            fractionConverted = IC.convert(new String(fractionCh)).getResult() + " tenths";
+                        }
+                    }
+                    else if (fractionCh[0] == '0') {
                         if (fractionCh[1] == '0') {
-                            fractionConverted = "";
+                            // Do nothing
                         } 
                         else {
                             char[] hundredth = Arrays.copyOfRange(fractionCh, 1, 2);
                             fractionConverted = IC.convert(new String(hundredth)).getResult() + " hundredths";
                         }
                     }
-                    else if (fractionCh.length == 2) {
-                        fractionConverted = IC.convert(new String(fractionCh)).getResult() + " hundredths";
-                    }
                     else {
-                        fractionConverted = IC.convert(new String(fractionCh)).getResult() + " tenths";
+                        fractionConverted = IC.convert(new String(fractionCh)).getResult() + " hundredths";
                     }
 
                     String float_nr = null;
                     if (integerConverted.equals("zero")) {
-                        float_nr = fractionConverted;
+                        if (fractionConverted == null) {
+                            float_nr = integerConverted;
+                        }
+                        else {
+                            float_nr = fractionConverted;
+                        }
                     }
                     else {
-                        float_nr = integerConverted + " and " + fractionConverted;
+                        if (fractionConverted == null) {
+                            float_nr = integerConverted;
+                        }
+                        else {
+                            float_nr = integerConverted + " and " + fractionConverted;
+                        }
                     }
                     builder.append(float_nr);
                 }
