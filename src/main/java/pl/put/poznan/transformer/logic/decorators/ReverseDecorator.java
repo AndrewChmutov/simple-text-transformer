@@ -3,7 +3,7 @@ package pl.put.poznan.transformer.logic.decorators;
 import pl.put.poznan.transformer.logic.TextTransformation;
 
 /**
- * This class is a concrete decorator used to reverse the input text
+ * This class is a concrete decorator used to reverse the input text preserving the case
  */
 public class ReverseDecorator extends TransformationDecorator {
 
@@ -16,10 +16,13 @@ public class ReverseDecorator extends TransformationDecorator {
     }
   
     /**
-     * This method is used to reverse the given text. Given an input string, it returns a
-     * string in reverse
+     * This method is used to reverse the given text preserving the position of
+     * upper and lower case letters. Given an input string, it returns a
+     * string in reverse with preserved case.
+     * e.g. MirEk -> KerIm
+     *
      * @param text string input by the user
-     * @return reversed text
+     * @return reversed text with preserved case
      */
     @Override
     public String transform(String text) {
