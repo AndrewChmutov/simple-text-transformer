@@ -17,7 +17,7 @@ public class CapitalizeDecorator extends TransformationDecorator {
     }
 
     /**
-     * This method is used to transorm each word's first letter to a capital one
+     * This method is used to transform each word's first letter to a capital one
      * @param text string input by the user
      * @return capitalized text
      */

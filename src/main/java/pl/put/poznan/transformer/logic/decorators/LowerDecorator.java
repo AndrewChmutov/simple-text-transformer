@@ -13,6 +13,6 @@ public class LowerDecorator extends TransformationDecorator {
         String result = text.toLowerCase();
         logger.debug("Lower applied: " + result);
 
-        return super.transform(text.toLowerCase());
+        return super.transform(result);
     }
 }

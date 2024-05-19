@@ -13,6 +13,6 @@ public class UpperDecorator extends TransformationDecorator {
         String result = text.toUpperCase();
         logger.debug("Upper applied: " + result);
 
-        return super.transform(text.toUpperCase());
+        return super.transform(result);
     }
 }
