@@ -17,6 +17,7 @@ public class TransformerConfig {
             case "capitalize" -> new CapitalizeDecorator(textTransformation);
             case "reverse" -> new ReverseDecorator(textTransformation);
             case "trim_repetitions" -> new RemoveRepetitionsDecorator(textTransformation);
+            case "latex" -> new LatexDecorator(textTransformation);
             default -> {
                 logger.warn("Invalid transformation: " + transformationName);
                 yield textTransformation;
