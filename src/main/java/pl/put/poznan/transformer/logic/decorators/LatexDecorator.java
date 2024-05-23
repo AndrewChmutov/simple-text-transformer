@@ -5,8 +5,8 @@ import pl.put.poznan.transformer.logic.TextTransformation;
 /**
  * This class is a concrete decorator used to transform the given text to a Latex format.
  * Namely, the tasks are to convert:
- *   $ -> \$
- *   & -> \&
+ *   $ -> \\$
+ *   & -> \\&
  */
 public class LatexDecorator extends TransformationDecorator {
 
