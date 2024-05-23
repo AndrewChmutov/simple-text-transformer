@@ -1,9 +1,7 @@
-name: Deploy Javadoc
+name: Publish documentation
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
     branches: [ "master" ]
 
 jobs:
@@ -12,7 +10,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Deploy JavaDoc
+      - name: Publish Javadoc
         uses: MathieuSoysal/Javadoc-publisher.yml@v2.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
