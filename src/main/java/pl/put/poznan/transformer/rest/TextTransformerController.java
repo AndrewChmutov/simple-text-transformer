@@ -8,7 +8,10 @@ import pl.put.poznan.transformer.logic.TextTransformer;
 
 import java.util.Arrays;
 
-
+/**
+ * This is a REST controller handling GET and POST requests, transforming the text in a way
+ * provided by the user
+ */
 @RestController
 public class TextTransformerController {
 
@@ -32,6 +35,12 @@ public class TextTransformerController {
                 .jsonString();
     }
 
+    /**
+     * This method handles GET requests at the /get endpoint
+     * @param text string input by the user
+     * @param transforms transformations requested by the user
+     * @return transformed text in Json
+     */
     @GetMapping(path = "/get", produces = "application/json")
     public String get(@RequestParam(value = "q", defaultValue = "") String text,
                               @RequestParam(value="transforms", defaultValue="") String[] transforms) {
@@ -41,6 +50,12 @@ public class TextTransformerController {
         final String output = transformationProcedure(text, transforms);
         return textToJsonFormat(output);
     }
+
+    /**
+     * This method handles POST requests at the /post endpoint
+     * @param request the request body containing the input text and transformations
+     * @return transformed text in Json
+     */
 
     @PostMapping(path = "/post", produces = "application/json")
     public @ResponseBody String post(@RequestBody TransformRequest request) {
