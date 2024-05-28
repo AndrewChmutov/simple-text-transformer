@@ -8,20 +8,6 @@ import static org.mockito.Mockito.*;
 
 class AcronymExpansionDecoratorTest {
 
-
-    @Test
-    void testPreserveCase() {
-        TextTransformation textTransformation = mock(TextTransformation.class);
-        AcronymExpansionDecorator acronymExpansionDecorator = new AcronymExpansionDecorator(textTransformation);
-
-        String originalText = "Prof.";
-        String fullFormText = "professor";
-        String expectedOutput = "Professor";
-
-        String result = acronymExpansionDecorator.preserveCase(originalText, fullFormText);
-        assertEquals(expectedOutput, result);
-    }
-
     @Test
     void testTransform1() {
         TextTransformation textTransformation = mock(TextTransformation.class);

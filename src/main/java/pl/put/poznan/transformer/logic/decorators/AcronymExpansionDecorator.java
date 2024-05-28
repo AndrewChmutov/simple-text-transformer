@@ -23,7 +23,7 @@ public class AcronymExpansionDecorator extends TransformationDecorator{
         ABBREVIATION_MAP.put("aso", "and so on");
     }
 
-    public String preserveCase(String original, String fullForm) {
+    private String preserveCase(String original, String fullForm) {
         if (original.equals(original.toUpperCase())) {
             return fullForm.toUpperCase();
         } else if (original.equals(original.toLowerCase())) {

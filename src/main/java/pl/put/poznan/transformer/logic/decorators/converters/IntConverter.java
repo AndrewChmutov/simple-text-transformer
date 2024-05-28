@@ -26,7 +26,7 @@ public class IntConverter {
      * @param number the integer that was identified in the text and converted from a string to an integer
      * @return the English text representation of the number
      */
-    public static String convertHundreds(int number) {
+    private static String convertHundreds(int number) {
         String text = "";
 
         if (number >= 100) {

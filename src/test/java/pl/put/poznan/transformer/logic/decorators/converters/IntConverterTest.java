@@ -15,18 +15,18 @@ class IntConverterTest {
     }
 
     @Test
-    void testConvertHundreds() {
-        int inputNumber = 679;
-        String expectedOutput = "six hundred seventy nine";
+    void testConvert1() {
+        String inputText = "1000 cars";
+        String expectedOutput = "one thousand cars";
 
-        String result = intConverter.convertHundreds(inputNumber);
+        String result = intConverter.convert(inputText).getResult();
         assertEquals(expectedOutput, result);
     }
 
     @Test
-    void testConvert() {
-        String inputText = "1000 cars";
-        String expectedOutput = "one thousand cars";
+    void testConvert2() {
+        String inputText = "I am 21 years old";
+        String expectedOutput = "I am twenty one years old";
 
         String result = intConverter.convert(inputText).getResult();
         assertEquals(expectedOutput, result);
