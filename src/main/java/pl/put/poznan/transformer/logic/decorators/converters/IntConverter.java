@@ -6,14 +6,26 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is used to find and convert integers into their English text representation within the range [0, 1000]
+ * that are separated by whitespaces on both sides in a given text.
+ */
 public class IntConverter {
 
     private static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
             "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private static final String[] TENS = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
+    /**
+     * IntConverter constructor
+     */
     public IntConverter(){}
 
+    /**
+     * Converts an integer within the range [0, 999] into its English text representation.
+     * @param number the integer that was identified in the text and converted from a string to an integer
+     * @return the English text representation of the number
+     */
     private static String convertHundreds(int number) {
         String text = "";
 
@@ -34,6 +46,13 @@ public class IntConverter {
         return text.trim();
     }
 
+    /**
+     * Finds all integers within the range [0, 1000] and converts them using `convertHundreds` method (except 1000).
+     * @param text the string input provided by the user
+     * @return an IntConversionResult object wich contains the text with all eligible integers converted
+     * to their English text representation and a boolean indicating whether the whole text is an integer
+     * (used in FloatConverter).
+     */
     public IntConversionResult convert(String text) {
         StringBuilder builder = new StringBuilder();
         Pattern pattern = Pattern.compile("\\s+");
